@@ -1,0 +1,12 @@
+<section>
+  <h2>This is the Tasks component</h2>
+  <hr>
+  <pre>
+    This is the JSON data of the tasks read from the store: <br><br>
+    {{ tasks$ | async | json}}
+  </pre>
+
+  <p>
+    <button (click)="addTasks()">Add Mock Tasks</button>
+  </p>
+</section>
