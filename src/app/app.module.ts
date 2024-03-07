@@ -3,17 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app.routing.module';
 import { AppComponent } from './app.component';
-import { Action, ActionReducer, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { checkTasksStorageSync } from './check-tasks-store';
-import {syncStorage} from '@o3r/store-sync';
+import { StorageKeyConfiguration } from '@o3r/store-sync';
+import { StorageSync } from '@o3r/store-sync';
 
-export function storageSyncWrapper<T, V extends Action = Action>(reducer: ActionReducer<T, V>): ActionReducer<T, V> {
-  const storageStates: any = [
-    {checkTasks: checkTasksStorageSync}
-  ];
-  return syncStorage({keys: storageStates, rehydrate: true, storage: sessionStorage || localStorage})(reducer);
-}
+const localStorageStates: StorageKeyConfiguration[] = [
+  {checkTasks: checkTasksStorageSync}
+];
+const storageSync = new StorageSync({
+  keys: localStorageStates, rehydrate: true,
+});
+const metaReducers = [storageSync.localStorageSync()];
 
 @NgModule({
   declarations: [
@@ -23,10 +25,7 @@ export function storageSyncWrapper<T, V extends Action = Action>(reducer: Action
     AppRoutingModule,
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {
-      // This is used to syncing with the session storage eagerly
-      // metaReducers: [storageSyncWrapper]
-    }),
+    StoreModule.forRoot({}, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 1000 })
   ],
   providers: [],
