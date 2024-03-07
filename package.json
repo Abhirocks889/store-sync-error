@@ -5,8 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod:stats": "ng build --configuration production --stats-json=true",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "analyze": "webpack-bundle-analyzer dist/store-sync-error/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -42,10 +44,10 @@
     "@o3r/store-sync": "~9.6.8",
     "@o3r/styling": "~9.6.8",
     "@o3r/third-party": "~9.6.8",
+    "ngrx-store-localstorage": "^16.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.13.0",
-    "ngrx-store-localstorage": "^16.0.0"
+    "zone.js": "~0.13.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.11",
@@ -58,6 +60,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.1.3"
+    "typescript": "~5.1.3",
+    "webpack-bundle-analyzer": "^4.10.1"
   }
 }
